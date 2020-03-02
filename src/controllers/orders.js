@@ -1,17 +1,66 @@
-function getOrders(req, res) {
-    res.json("heelll");
+const Order = require('../models/order');
+
+async function addOrder(req, res) {
+    const {orderNo,size,price,ingredients} = req.body;
+
+    const order = new Order({
+        orderNo,
+        size,
+        price,
+        ingredients
+    });
+
+    await order.save();
+    return res.json(order);
 
 }
-
-function getOrder(req, res) {
-}
-
-function addOrder(req, res) {
+async function getOrders(req, res) {
+    const orders = await Order.find();
+    return res.json(orders);
 
 }
+async function getOrder(req, res) {
+    const { orderNo } = req.params;
+    const order = await Order.findById(orderNo);
+    if(!order) {
+        return res.status(404).json("NOT FOUND");
+    }
+    return res.json(order);
+}
 
-function updateOrder(req,res) {}
-function deleteOrder(req,res) {}
+async function updateOrder(req, res) {
+    const { orderNo } = req.params;
+    const { size, price } = req.body;
+    // const order = await Order.findById(orderNo);
+    // if (!order) {
+    //     return res.status(404).json("NOT EXIST");
+    // }
+    // order.size = size;
+    // order.price = price;
+    // await order.save();
+    // return res.json(order);
+
+    const order = await Order.findByIdAndUpdate(
+        orderNo,{
+        size, price
+    },
+    { new: true}
+    );// response new data
+    if (!order) {
+        return res.status(404).json("not exist");
+    }
+    return res.json(order);
+}
+function updateOrders(req,res) {
+}
+async function deleteOrder(req,res) {
+    const { orderNo } = req.params;
+    const order = await Order.findByIdAndDelete(orderNo);
+    if (!order) {
+        return res.status(404).json("NOT EXIST");
+    }
+    return res.json("DELETED");
+}
 
 
 module.exports = {
@@ -19,5 +68,6 @@ module.exports = {
     getOrder,
     addOrder,
     updateOrder,
+    updateOrders,
     deleteOrder
 };
