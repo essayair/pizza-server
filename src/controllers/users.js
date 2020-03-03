@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const Order = require("../models/order");
 
 
 async function addUser(req, res) {
@@ -45,10 +46,24 @@ async function updateUser(req, res) {
     return res.json(user);
 }
 
+async function bindOrder(req, res) {
+
+    const { userId, orderNo } = req.params;
+    const user = await User.findById(userId);
+    const order = await Order.findById(orderNo);
+    user.orders.addToset(order.orderNo);
+    order.users.addToset(user.userId);
+    await user.save();
+    await order.save();
+    return res.json(user);
+
+
+}
 
 module.exports = {
     getUsers,
     getUser,
     addUser,
-    updateUser
+    updateUser,
+    bindOrder
 };

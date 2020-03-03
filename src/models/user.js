@@ -23,7 +23,13 @@ const schema = new mongoose.Schema({
             validator: email => !Joi.string().email().validate(email).error,
             msg: 'Invalida email format'
         }
-    }
+    },
+    orders: [
+        {
+            type: String,
+            ref: 'Order'
+        }
+    ]
 },{
     timestamps: true,
     toJSON: {

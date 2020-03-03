@@ -7,7 +7,6 @@ const schema = new mongoose.Schema({
         type: String,
         require:true,
         alias: "orderNo"
-
     },
     size: {
         type: String,
@@ -20,7 +19,12 @@ const schema = new mongoose.Schema({
     ingredients:{
         type: String,
         require: false
-    }
+    },
+    users: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+
 },{
     timestamps: true,
     toJSON: {

@@ -1,4 +1,6 @@
 const Order = require('../models/order');
+const User = require('../models/user');
+
 
 async function addOrder(req, res) {
     const {orderNo,size,price,ingredients} = req.body;
