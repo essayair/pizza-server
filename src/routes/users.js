@@ -7,7 +7,7 @@ router.get('/',getUsers);
 router.get('/:userId',getUser);
 router.post('/', addUser);
 router.put('/:userId',updateUser);
-router.post('/:userId/orders:orderNo',bindOrder);
+router.post('/:userId/orders/:orderNo',bindOrder);
 
 
 
