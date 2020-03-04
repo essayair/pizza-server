@@ -20,10 +20,12 @@ const schema = new mongoose.Schema({
         type: String,
         require: false
     },
-    users: [{
+    users: [
+        {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
-    }],
+        }
+],
 
 },{
     timestamps: true,

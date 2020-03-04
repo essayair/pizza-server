@@ -47,18 +47,22 @@ async function updateUser(req, res) {
 }
 
 async function bindOrder(req, res) {
-
+    //add order first at frontend 
+    //if ordered true, then bindOrder with user; if false stopped.
     const { userId, orderNo } = req.params;
+    const order = await Order.findById(userId);
+    if (!order ) {
+        return res.status(404).json('order not available')
+    }
     const user = await User.findById(userId);
-    const order = await Order.findById(orderNo);
+    // user.orders.push(order.orderNo);
     user.orders.addToset(order.orderNo);
     order.users.addToset(user.userId);
     await user.save();
-    await order.save();
+    // await order.save();
     return res.json(user);
-
-
 }
+
 
 module.exports = {
     getUsers,
