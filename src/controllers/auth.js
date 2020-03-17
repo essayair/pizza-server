@@ -11,9 +11,15 @@ async function loginUser(req, res) {
         return res.status(401).json('Invalid email or password');
     }
 
-    if(existingUser.password !== password) {
-        return res.status(401).json('Invalid email or password');
+    // if (!existingUser.validatePassword(password)) {
+    //   return res.status(401).json('Invalid username or password');
+    // }
+
+    const validPassword = await existingUser.validatePassword(password);
+    if (!validPassword) {
+      return res.status(401).json('Invalid username or password');
     }
+
 
     console.log(password);
 

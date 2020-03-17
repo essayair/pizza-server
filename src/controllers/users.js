@@ -6,12 +6,21 @@ const {generateToken} = require('../utils/jwt')
 async function addUser(req, res) {
     const {userId, firstName, lastName, email, password} = req.body;
 
+    const existingUser = await User.findOne({ userId }).exec();
+
+    if (existingUser) {
+        return res.status(404).json('User already exist');
+    }
+
     const user = new User ({ 
         userId,
         firstName,
         lastName,
         email,
         password});
+
+    await user.hashPassword();
+
     await user.save();
     // try { await user.save(); } catch (e) {
     //     return res.json(e);

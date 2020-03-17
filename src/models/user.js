@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Joi = require('@hapi/joi');
+const bcrypt = require('bcrypt');
 
 const schema = new mongoose.Schema({
     _id: {
@@ -42,6 +43,18 @@ const schema = new mongoose.Schema({
 
 });
 
+//** function to hash password, used in controller by this.*/ 
+// const salt = bcrypt.genSaltSync(saltRounds);
+schema.methods.hashPassword = async function() {
+    this.password = await bcrypt.hash(this.password, 10); // no salt now
+}
+
+
+
+schema.methods.validatePassword = async function(password) {
+    const validPassword = await bcrypt.compare(password, this.password);
+    return validPassword;
+  };
 
 const model = mongoose.model('User', schema);
 
