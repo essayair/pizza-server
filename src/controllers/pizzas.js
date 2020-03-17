@@ -16,7 +16,10 @@ async function addPizza(req, res) {
 }
 
 async function getPizzas(req, res) {
-    const pizzas = await Pizza.find();
+
+    const pizzas = await Pizza.find().exec();
+    // const pizzas = await Pizza.find().skip().limit();
+
     return res.json(pizzas);
 
 }

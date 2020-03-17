@@ -22,16 +22,16 @@ const schema = new mongoose.Schema({
     },
     users: [
         {
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
         ref: 'User'
         }
 ],
 
 },{
     timestamps: true,
-    toJSON: {
-        virtuals:true
-    },
+    // toJSON: {
+    //     virtuals:true
+    // },
 
 });
 

@@ -8,14 +8,6 @@ const schema = new mongoose.Schema({
         alias: "userId",
         minlength: 2
     },
-    firstName: {
-        type: String,
-        require: true
-    },
-    lastName:{
-        type: String,
-        require: true
-    },
     email:{
         type: String,
         require: false,
@@ -23,6 +15,18 @@ const schema = new mongoose.Schema({
             validator: email => !Joi.string().email().validate(email).error,
             msg: 'Invalid email format'
         }
+    },
+    password: {
+        type: String,
+        require: true
+    },
+    firstName: {
+        type: String,
+        require: true
+    },
+    lastName:{
+        type: String,
+        require: true
     },
     orders: [
         {
@@ -32,9 +36,9 @@ const schema = new mongoose.Schema({
     ]
 },{
     timestamps: true,
-    toJSON: {
-        virtuals:true
-    },
+    // toJSON: {
+    //     virtuals:true
+    // },
 
 });
 

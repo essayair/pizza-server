@@ -17,13 +17,13 @@ async function addOrder(req, res) {
 
 }
 async function getOrders(req, res) {
-    const orders = await Order.find();
+    const orders = await Order.find().exec();
     return res.json(orders);
 
 }
 async function getOrder(req, res) {
     const { orderNo } = req.params;
-    const order = await Order.findById(orderNo);
+    const order = await Order.findById(orderNo).populate('users','lastName').exec();
     if(!order) {
         return res.status(404).json("NOT FOUND");
     }
@@ -57,10 +57,16 @@ function updateOrders(req,res) {
 }
 async function deleteOrder(req,res) {
     const { orderNo } = req.params;
-    const order = await Order.findByIdAndDelete(orderNo);
+    const order = await Order.findByIdAndDelete(orderNo).exec();
     if (!order) {
         return res.status(404).json("NOT EXIST");
     }
+    await User.updateMany(
+        { orders: order.orderNo },
+        {
+            $pull: {orders: order.orderNo}
+        }
+    );
     return res.json("DELETED");
 }
 
