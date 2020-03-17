@@ -14,7 +14,7 @@ const authGuard = require('./middleware/authGuard')
 //**auth after other features */
 
 router.use('/pizzas', pizzaRoute);
-router.use('/orders', orderRoute);
+router.use('/orders', authGuard,orderRoute);
 router.use('/users', userRoute);
 router.use('/auth', authRoute);
 

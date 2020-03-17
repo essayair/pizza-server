@@ -13,13 +13,16 @@ app.use(express.json());
 app.use('/api', routes);
 app.use(errorHandler);
 
-
-connectToDB().then(() => {
-    app.listen(3000, () => {
-      console.log("server listening");
-    });
-  
+   connectToDB()
+   .then(() => {
+     console.log('DB connected');
+     app.listen(3000, () => {
+       console.log(`Server is listening on PORT: ${3000}`);
+     });
    })
-   .catch(e => { console.error(e); process.exit(1) })
-  
-  
+   .catch(e => {
+     console.log('DB connection failed');
+     console.error(e.message);
+     process.exit(1);
+   });
+ 
