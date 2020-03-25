@@ -46,12 +46,10 @@ const schema = new mongoose.Schema({
 //** function to hash password, used in controller by this.*/ 
 // const salt = bcrypt.genSaltSync(saltRounds);
 schema.methods.hashPassword = async function() {
-    this.password = await bcrypt.hash(this.password, 10); // no salt now
-}
-
-
-
-schema.methods.validatePassword = async function(password) {
+    this.password = await bcrypt.hash(this.password, 10);
+  };
+  
+  schema.methods.validatePassword = async function(password) {
     const validPassword = await bcrypt.compare(password, this.password);
     return validPassword;
   };
